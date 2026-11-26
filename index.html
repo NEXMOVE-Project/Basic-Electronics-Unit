@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXMOVE | Automated Conveyor System</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@400;600;700;900&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --navy-dark: #042147;
+            --royal-blue: #004B87;
+            --mystery-teal: #009999;
+            --neon-lime: #99be2e;
+            --lime-bright: #b5dc38;
+            --mystery-orange: #FF6B1A;
+            --olive-accent: #7A8B1E;
+            --gold-accent: #E5C158;
+            --scooby-brown: #8B5A2B;
+            --bg-cream: #F9FCF2;
+            --card-bg: #FFFFFF;
+            --text-main: #0A2540;
+            --text-muted: #52667A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Cairo', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Mystery Machine Retro Flower & Psychedelic Background Pattern */
+        .mystery-bg-layer {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.55;
+            background-image: 
+                radial-gradient(circle at 8% 15%, rgba(153, 190, 46, 0.22) 0%, transparent 32%),
+                radial-gradient(circle at 92% 35%, rgba(0, 153, 153, 0.14) 0%, transparent 38%),
+                radial-gradient(circle at 15% 85%, rgba(255, 107, 26, 0.10) 0%, transparent 35%),
+                url("data:image/svg+xml,%3Csvg width='180' height='180' viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg transform='translate(35, 35)' fill='%2399be2e' fill-opacity='0.14'%3E%3Ccircle cx='15' cy='5' r='5'/%3E%3Ccircle cx='24' cy='11' r='5'/%3E%3Ccircle cx='21' cy='22' r='5'/%3E%3Ccircle cx='9' cy='22' r='5'/%3E%3Ccircle cx='6' cy='11' r='5'/%3E%3Ccircle cx='15' cy='14' r='4' fill='%23FF6B1A' fill-opacity='0.22'/%3E%3C/g%3E%3Cg transform='translate(125, 115) scale(0.8)' fill='%23009999' fill-opacity='0.13'%3E%3Ccircle cx='15' cy='5' r='5'/%3E%3Ccircle cx='24' cy='11' r='5'/%3E%3Ccircle cx='21' cy='22' r='5'/%3E%3Ccircle cx='9' cy='22' r='5'/%3E%3Ccircle cx='6' cy='11' r='5'/%3E%3Ccircle cx='15' cy='14' r='4' fill='%23E5C158' fill-opacity='0.3'/%3E%3C/g%3E%3Cpath d='M90 15 L93 21 L99 22 L94 26 L95 32 L90 29 L85 32 L86 26 L81 22 L87 21 Z' fill='%23004B87' fill-opacity='0.07'/%3E%3C/g%3E%3C/svg%3E");
+            animation: driftPattern 45s linear infinite;
+        }
+
+        /* Top Scroll Progress Indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 5px;
+            width: 0%;
+            background: linear-gradient(90deg, var(--mystery-teal), var(--neon-lime), var(--mystery-orange));
+            z-index: 9999;
+            box-shadow: 0 0 12px rgba(153, 190, 46, 0.7);
+            transition: width 0.1s linear;
+        }
+
+        /* Hero Header with Mystery Machine Wave & Floating Shapes */
+        header {
+            text-align: center;
+            padding: 5rem 1.5rem 5.2rem;
+            background: linear-gradient(135deg, var(--navy-dark) 0%, #023366 50%, #005f73 100%);
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle Psychedelic Wave Pattern inside Hero */
+        header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 60 Q 30 35, 60 60 T 120 60' fill='none' stroke='%2399be2e' stroke-width='2' stroke-opacity='0.12'/%3E%3Cpath d='M0 85 Q 30 60, 60 85 T 120 85' fill='none' stroke='%23FF6B1A' stroke-width='1.5' stroke-opacity='0.1'/%3E%3Cg transform='translate(80, 20)' fill='%23b5dc38' fill-opacity='0.1'%3E%3Ccircle cx='10' cy='3' r='3.5'/%3E%3Ccircle cx='16' cy='8' r='3.5'/%3E%3Ccircle cx='14' cy='15' r='3.5'/%3E%3Ccircle cx='6' cy='15' r='3.5'/%3E%3Ccircle cx='4' cy='8' r='3.5'/%3E%3C/g%3E%3C/svg%3E");
+            animation: driftPattern 30s linear infinite;
+            pointer-events: none;
+        }
+
+        /* Floating Glowing Orbs in Header */
+        .hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(55px);
+            pointer-events: none;
+            animation: pulseOrb 8s ease-in-out infinite alternate;
+        }
+        .orb-1 {
+            width: 260px;
+            height: 260px;
+            background: rgba(153, 190, 46, 0.25);
+            top: -60px;
+            left: -40px;
+        }
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 107, 26, 0.16);
+            bottom: -40px;
+            right: -50px;
+            animation-delay: 2s;
+        }
+
+        /* Animated Conveyor Belt Strip + Mini Mystery Machine Van */
+        .conveyor-stage {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 36px;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .mini-mystery-van {
+            position: absolute;
+            bottom: 8px;
+            left: -90px;
+            width: 64px;
+            height: 28px;
+            animation: driveVan 14s linear infinite;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.4));
+        }
+
+        .conveyor-track {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 9px;
+            background: var(--navy-dark);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            overflow: hidden;
+        }
+
+        .conveyor-belt {
+            width: 200%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--neon-lime) 0px,
+                var(--neon-lime) 22px,
+                var(--mystery-orange) 22px,
+                var(--mystery-orange) 28px,
+                var(--navy-dark) 28px,
+                var(--navy-dark) 40px
+            );
+            animation: moveBelt 12s linear infinite;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.9rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        .badge-ieee {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            color: #ffffff;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .badge-ieee:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .badge-team {
+            background: linear-gradient(135deg, var(--neon-lime), var(--lime-bright));
+            color: var(--navy-dark);
+            padding: 8px 22px;
+            border-radius: 30px;
+            font-weight: 900;
+            font-size: 0.92rem;
+            letter-spacing: 0.4px;
+            box-shadow: 0 4px 18px rgba(153, 190, 46, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .badge-team:hover {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 6px 24px rgba(153, 190, 46, 0.6);
+        }
+
+        header h1 {
+            font-size: clamp(3rem, 6.5vw, 4.2rem);
+            font-weight: 900;
+            letter-spacing: 4px;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+            animation: fadeInDown 0.75s ease-out;
+        }
+
+        header h1 span {
+            background: linear-gradient(90deg, var(--neon-lime), #d9f968, var(--mystery-orange));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientFlow 5s ease infinite;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #e0f2fe;
+            max-width: 720px;
+            margin: 0 auto 1.5rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+            animation: fadeInDown 0.85s ease-out;
+        }
+
+        /* System Workflow Pills */
+        .system-flow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.65rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.4rem;
+            position: relative;
+            z-index: 2;
+            animation: fadeInDown 0.95s ease-out;
+        }
+
+        .flow-pill {
+            background: rgba(4, 33, 71, 0.65);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(153, 190, 46, 0.5);
+            color: #f0f9d2;
+            padding: 6px 16px;
+            border-radius: 22px;
+            font-size: 0.84rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .flow-pill:hover {
+            transform: translateY(-3px) scale(1.03);
+            border-color: var(--mystery-orange);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+        }
+
+        .flow-pill i {
+            color: var(--neon-lime);
+        }
+
+        .flow-arrow {
+            color: var(--mystery-orange);
+            font-size: 0.85rem;
+            animation: arrowPulse 1.4s infinite ease-in-out;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .btn {
+            padding: 14px 34px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 0.96rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--neon-lime);
+            color: var(--navy-dark);
+            box-shadow: 0 8px 22px rgba(153, 190, 46, 0.35);
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 45%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            transform: skewX(-25deg);
+            animation: shimmer 3.5s infinite;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px) scale(1.03);
+            background: var(--lime-bright);
+            box-shadow: 0 12px 28px rgba(153, 190, 46, 0.55);
+        }
+
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(6px);
+            color: #fff;
+            border: 2px solid rgba(153, 190, 46, 0.7);
+        }
+
+        .btn-outline:hover {
+            background: var(--mystery-orange);
+            color: #fff;
+            border-color: var(--mystery-orange);
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 12px 28px rgba(255, 107, 26, 0.4);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4.2rem 1.5rem;
+        }
+
+        section {
+            margin-bottom: 5.2rem;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 900;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: var(--navy-dark);
+            position: relative;
+            padding-bottom: 16px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--mystery-teal), var(--neon-lime), var(--mystery-orange));
+            border-radius: 4px;
+        }
+
+        /* Video Box with Animated Glow Border */
+        .video-wrapper {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 10px;
+            background: linear-gradient(135deg, var(--navy-dark), var(--mystery-teal), var(--neon-lime), var(--mystery-orange));
+            background-size: 250% 250%;
+            animation: gradientFlow 8s ease infinite;
+            border-radius: 26px;
+            box-shadow: 0 22px 50px rgba(4, 33, 71, 0.2);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+        }
+
+        .video-wrapper:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 28px 60px rgba(4, 33, 71, 0.28);
+        }
+
+        .video-box {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            background: #000;
+            border-radius: 18px;
+            overflow: hidden;
+        }
+
+        .video-box iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        <!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXMOVE | Automated Conveyor System</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@400;600;700;900&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --navy-dark: #042147;
+            --royal-blue: #004B87;
+            --mystery-teal: #009999;
+            --neon-lime: #99be2e;
+            --lime-bright: #b5dc38;
+            --mystery-orange: #FF6B1A;
+            --olive-accent: #7A8B1E;
+            --gold-accent: #E5C158;
+            --scooby-brown: #8B5A2B;
+            --bg-cream: #F9FCF2;
+            --card-bg: #FFFFFF;
+            --text-main: #0A2540;
+            --text-muted: #52667A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Cairo', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Mystery Machine Retro Flower & Psychedelic Background Pattern */
+        .mystery-bg-layer {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.55;
+            background-image: 
+                radial-gradient(circle at 8% 15%, rgba(153, 190, 46, 0.22) 0%, transparent 32%),
+                radial-gradient(circle at 92% 35%, rgba(0, 153, 153, 0.14) 0%, transparent 38%),
+                radial-gradient(circle at 15% 85%, rgba(255, 107, 26, 0.10) 0%, transparent 35%),
+                url("data:image/svg+xml,%3Csvg width='180' height='180' viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg transform='translate(35, 35)' fill='%2399be2e' fill-opacity='0.14'%3E%3Ccircle cx='15' cy='5' r='5'/%3E%3Ccircle cx='24' cy='11' r='5'/%3E%3Ccircle cx='21' cy='22' r='5'/%3E%3Ccircle cx='9' cy='22' r='5'/%3E%3Ccircle cx='6' cy='11' r='5'/%3E%3Ccircle cx='15' cy='14' r='4' fill='%23FF6B1A' fill-opacity='0.22'/%3E%3C/g%3E%3Cg transform='translate(125, 115) scale(0.8)' fill='%23009999' fill-opacity='0.13'%3E%3Ccircle cx='15' cy='5' r='5'/%3E%3Ccircle cx='24' cy='11' r='5'/%3E%3Ccircle cx='21' cy='22' r='5'/%3E%3Ccircle cx='9' cy='22' r='5'/%3E%3Ccircle cx='6' cy='11' r='5'/%3E%3Ccircle cx='15' cy='14' r='4' fill='%23E5C158' fill-opacity='0.3'/%3E%3C/g%3E%3Cpath d='M90 15 L93 21 L99 22 L94 26 L95 32 L90 29 L85 32 L86 26 L81 22 L87 21 Z' fill='%23004B87' fill-opacity='0.07'/%3E%3C/g%3E%3C/svg%3E");
+            animation: driftPattern 45s linear infinite;
+        }
+
+        /* Top Scroll Progress Indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 5px;
+            width: 0%;
+            background: linear-gradient(90deg, var(--mystery-teal), var(--neon-lime), var(--mystery-orange));
+            z-index: 9999;
+            box-shadow: 0 0 12px rgba(153, 190, 46, 0.7);
+            transition: width 0.1s linear;
+        }
+
+        /* Hero Header with Mystery Machine Wave & Floating Shapes */
+        header {
+            text-align: center;
+            padding: 5rem 1.5rem 5.2rem;
+            background: linear-gradient(135deg, var(--navy-dark) 0%, #023366 50%, #005f73 100%);
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle Psychedelic Wave Pattern inside Hero */
+        header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 60 Q 30 35, 60 60 T 120 60' fill='none' stroke='%2399be2e' stroke-width='2' stroke-opacity='0.12'/%3E%3Cpath d='M0 85 Q 30 60, 60 85 T 120 85' fill='none' stroke='%23FF6B1A' stroke-width='1.5' stroke-opacity='0.1'/%3E%3Cg transform='translate(80, 20)' fill='%23b5dc38' fill-opacity='0.1'%3E%3Ccircle cx='10' cy='3' r='3.5'/%3E%3Ccircle cx='16' cy='8' r='3.5'/%3E%3Ccircle cx='14' cy='15' r='3.5'/%3E%3Ccircle cx='6' cy='15' r='3.5'/%3E%3Ccircle cx='4' cy='8' r='3.5'/%3E%3C/g%3E%3C/svg%3E");
+            animation: driftPattern 30s linear infinite;
+            pointer-events: none;
+        }
+
+        /* Floating Glowing Orbs in Header */
+        .hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(55px);
+            pointer-events: none;
+            animation: pulseOrb 8s ease-in-out infinite alternate;
+        }
+        .orb-1 {
+            width: 260px;
+            height: 260px;
+            background: rgba(153, 190, 46, 0.25);
+            top: -60px;
+            left: -40px;
+        }
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 107, 26, 0.16);
+            bottom: -40px;
+            right: -50px;
+            animation-delay: 2s;
+        }
+
+        /* Animated Conveyor Belt Strip + Mini Mystery Machine Van */
+        .conveyor-stage {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 36px;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .mini-mystery-van {
+            position: absolute;
+            bottom: 8px;
+            left: -90px;
+            width: 64px;
+            height: 28px;
+            animation: driveVan 14s linear infinite;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.4));
+        }
+
+        .conveyor-track {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 9px;
+            background: var(--navy-dark);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            overflow: hidden;
+        }
+
+        .conveyor-belt {
+            width: 200%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--neon-lime) 0px,
+                var(--neon-lime) 22px,
+                var(--mystery-orange) 22px,
+                var(--mystery-orange) 28px,
+                var(--navy-dark) 28px,
+                var(--navy-dark) 40px
+            );
+            animation: moveBelt 12s linear infinite;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.9rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        .badge-ieee {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            color: #ffffff;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .badge-ieee:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .badge-team {
+            background: linear-gradient(135deg, var(--neon-lime), var(--lime-bright));
+            color: var(--navy-dark);
+            padding: 8px 22px;
+            border-radius: 30px;
+            font-weight: 900;
+            font-size: 0.92rem;
+            letter-spacing: 0.4px;
+            box-shadow: 0 4px 18px rgba(153, 190, 46, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .badge-team:hover {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 6px 24px rgba(153, 190, 46, 0.6);
+        }
+
+        header h1 {
+            font-size: clamp(3rem, 6.5vw, 4.2rem);
+            font-weight: 900;
+            letter-spacing: 4px;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+            animation: fadeInDown 0.75s ease-out;
+        }
+
+        header h1 span {
+            background: linear-gradient(90deg, var(--neon-lime), #d9f968, var(--mystery-orange));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientFlow 5s ease infinite;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #e0f2fe;
+            max-width: 720px;
+            margin: 0 auto 1.5rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+            animation: fadeInDown 0.85s ease-out;
+        }
+
+        /* System Workflow Pills */
+        .system-flow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.65rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.4rem;
+            position: relative;
+            z-index: 2;
+            animation: fadeInDown 0.95s ease-out;
+        }
+
+        .flow-pill {
+            background: rgba(4, 33, 71, 0.65);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(153, 190, 46, 0.5);
+            color: #f0f9d2;
+            padding: 6px 16px;
+            border-radius: 22px;
+            font-size: 0.84rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .flow-pill:hover {
+            transform: translateY(-3px) scale(1.03);
+            border-color: var(--mystery-orange);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+        }
+
+        .flow-pill i {
+            color: var(--neon-lime);
+        }
+
+        .flow-arrow {
+            color: var(--mystery-orange);
+            font-size: 0.85rem;
+            animation: arrowPulse 1.4s infinite ease-in-out;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .btn {
+            padding: 14px 34px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 0.96rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--neon-lime);
+            color: var(--navy-dark);
+            box-shadow: 0 8px 22px rgba(153, 190, 46, 0.35);
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 45%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            transform: skewX(-25deg);
+            animation: shimmer 3.5s infinite;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px) scale(1.03);
+            background: var(--lime-bright);
+            box-shadow: 0 12px 28px rgba(153, 190, 46, 0.55);
+        }
+
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(6px);
+            color: #fff;
+            border: 2px solid rgba(153, 190, 46, 0.7);
+        }
+
+        .btn-outline:hover {
+            background: var(--mystery-orange);
+            color: #fff;
+            border-color: var(--mystery-orange);
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 12px 28px rgba(255, 107, 26, 0.4);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4.2rem 1.5rem;
+        }
+
+        section {
+            margin-bottom: 5.2rem;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 900;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: var(--navy-dark);
+            position: relative;
+            padding-bottom: 16px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--mystery-teal), var(--neon-lime), var(--mystery-orange));
+            border-radius: 4px;
+        }
+
+        /* Video Box with Animated Glow Border */
+        .video-wrapper {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 10px;
+            background: linear-gradient(135deg, var(--navy-dark), var(--mystery-teal), var(--neon-lime), var(--mystery-orange));
+            background-size: 250% 250%;
+            animation: gradientFlow 8s ease infinite;
+            border-radius: 26px;
+            box-shadow: 0 22px 50px rgba(4, 33, 71, 0.2);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+        }
+
+        .video-wrapper:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 28px 60px rgba(4, 33, 71, 0.28);
+        }
+
+        .video-box {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            background: #000;
+            border-radius: 18px;
+            overflow: hidden;
+        }
+
+        .video-box iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Key Specs Strip with Animated Counters */
+        .specs-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 1.3rem;
+            margin-bottom: 2.8rem;
+        }
+
+        .spec-item {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(4, 33, 71, 0.08);
+            border-left: 5px solid var(--neon-lime);
+            padding: 1.3rem 1.5rem;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 1.1rem;
+            box-shadow: 0 8px 24px rgba(4, 33, 71, 0.04);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .spec-item:hover {
+            transform: translateY(-5px);
+            border-left-color: var(--mystery-orange);
+            border-left-width: 8px;
+            box-shadow: 0 14px 30px rgba(4, 33, 71, 0.1);
+        }
+
+        .spec-number {
+            font-size: 1.85rem;
+            font-weight: 900;
+            color: var(--royal-blue);
+            line-height: 1;
+            min-width: 56px;
+        }
+
+        .spec-label {
+            font-size: 0.92rem;
+            font-weight: 800;
+            color: var(--navy-dark);
+        }
+
+        .spec-sub {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* Architecture Grid with Mouse Spotlight */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(4, 33, 71, 0.09);
+            padding: 2.6rem 2.1rem;
+            border-radius: 24px;
+            box-shadow: 0 12px 32px rgba(4, 33, 71, 0.05);
+            transition: transform 0.25s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        /* Dynamic Mouse Spotlight Overlay */
+        .card::after, .team-member::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                320px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                rgba(153, 190, 46, 0.18),
+                transparent 70%
+            );
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            pointer-events: none;
+        }
+
+        .card:hover::after, .team-member:hover::after {
+            opacity: 1;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--royal-blue), var(--mystery-teal));
+            transition: background 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 24px 48px rgba(4, 33, 71, 0.14);
+            border-color: var(--neon-lime);
+        }
+
+        .card:hover::before {
+            background: linear-gradient(90deg, var(--neon-lime), var(--mystery-orange));
+        }
+
+        .card-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(4, 33, 71, 0.06), rgba(0, 153, 153, 0.12));
+            color: var(--navy-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1.4rem;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: floatIcon 3.8s ease-in-out infinite;
+        }
+
+        .card:hover .card-icon {
+            background: var(--navy-dark);
+            color: var(--neon-lime);
+            transform: rotate(-10deg) scale(1.12);
+            box-shadow: 0 10px 20px rgba(4, 33, 71, 0.2);
+            animation: none;
+        }
+
+        .card h3 {
+            font-size: 1.35rem;
+            margin-bottom: 0.75rem;
+            color: var(--navy-dark);
+            font-weight: 800;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.97rem;
+        }
+
+        /* Team Grid - 5 Members in ONE Single Row on Desktop */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1.3rem;
+            text-align: center;
+        }
+
+        @media (max-width: 992px) {
+            .team-grid {
+                grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            }
+        }
+
+        /* Enhanced Mystery Machine & Scooby-Doo Themed Member Cards */
+        .team-member {
+            background-color: #ffffff;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg width='110' height='110' viewBox='0 0 110 110' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform='translate(14, 14)' fill='%2399be2e' fill-opacity='0.22'%3E%3Ccircle cx='12' cy='4' r='4'/%3E%3Ccircle cx='19' cy='9' r='4'/%3E%3Ccircle cx='16' cy='17' r='4'/%3E%3Ccircle cx='8' cy='17' r='4'/%3E%3Ccircle cx='5' cy='9' r='4'/%3E%3Ccircle cx='12' cy='11' r='3.5' fill='%23FF6B1A' fill-opacity='0.35'/%3E%3C/g%3E%3Cg transform='translate(72, 70) scale(0.85)' fill='%23009999' fill-opacity='0.18'%3E%3Ccircle cx='12' cy='4' r='4'/%3E%3Ccircle cx='19' cy='9' r='4'/%3E%3Ccircle cx='16' cy='17' r='4'/%3E%3Ccircle cx='8' cy='17' r='4'/%3E%3Ccircle cx='5' cy='9' r='4'/%3E%3Ccircle cx='12' cy='11' r='3.5' fill='%23E5C158' fill-opacity='0.4'/%3E%3C/g%3E%3C/svg%3E"),
+                linear-gradient(165deg, rgba(255, 255, 255, 0.96) 0%, rgba(236, 248, 224, 0.94) 55%, rgba(224, 242, 241, 0.9) 100%);
+            border: 2px solid rgba(0, 153, 153, 0.22);
+            padding: 2rem 0.9rem 1.8rem;
+            border-radius: 24px;
+            box-shadow: 0 12px 28px rgba(4, 33, 71, 0.07);
+            transition: transform 0.25s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        /* Mystery Machine Signature Striped Top Bar */
+        .team-member::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 7px;
+            background: linear-gradient(90deg, var(--mystery-teal) 0%, var(--neon-lime) 50%, var(--mystery-orange) 100%);
+            transition: height 0.3s ease;
+        }
+
+        .team-member:hover {
+            box-shadow: 0 22px 42px rgba(4, 33, 71, 0.16);
+            border-color: var(--mystery-orange);
+        }
+
+        .team-member:hover::before {
+            height: 9px;
+        }
+
+        /* Scooby-Doo Style Diamond Collar Tag Badge */
+        .scooby-tag {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 24px;
+            height: 24px;
+            background: var(--mystery-teal);
+            border: 2px solid var(--gold-accent);
+            border-radius: 5px;
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+            transition: transform 0.4s ease;
+        }
+
+        .scooby-tag span {
+            transform: rotate(-45deg);
+            font-size: 0.55rem;
+            font-weight: 900;
+            color: var(--gold-accent);
+            letter-spacing: -0.5px;
+        }
+
+        .team-member:hover .scooby-tag {
+            transform: rotate(45deg) scale(1.18);
+            animation: tagSwing 0.6s ease;
+        }
+
+        .member-avatar {
+            width: 94px;
+            height: 94px;
+            border-radius: 50%;
+            margin: 0 auto 1.15rem;
+            background: linear-gradient(135deg, var(--mystery-teal), var(--neon-lime), var(--mystery-orange));
+            padding: 4px;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
+        }
+
+        .team-member:hover .member-avatar {
+            transform: scale(1.1) rotate(4deg);
+            box-shadow: 0 0 24px rgba(153, 190, 46, 0.55);
+        }
+
+        .member-avatar-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #eef2f6;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .member-avatar-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 20%;
+            image-rendering: -webkit-optimize-contrast;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+        }
+
+        .member-avatar-inner i {
+            font-size: 2.1rem;
+            color: var(--navy-dark);
+        }
+
+        .team-member h4 {
+            font-size: 1.06rem;
+            margin-bottom: 0.25rem;
+            font-weight: 800;
+            color: var(--navy-dark);
+        }
+
+        .team-member p {
+            font-size: 0.82rem;
+            color: var(--mystery-teal);
+            font-weight: 800;
+            margin-bottom: 1.15rem;
+        }
+
+        .linkedin-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            background: var(--navy-dark);
+            color: var(--neon-lime);
+            border-radius: 50%;
+            text-decoration: none;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .linkedin-btn:hover {
+            background: #0077b5;
+            color: #fff;
+            transform: scale(1.2) rotate(10deg);
+            box-shadow: 0 6px 16px rgba(0, 119, 181, 0.4);
+        }
+
+        /* Staggered Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px) scale(0.98);
+            transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .delay-1 { transition-delay: 0.08s; }
+        .delay-2 { transition-delay: 0.16s; }
+        .delay-3 { transition-delay: 0.24s; }
+        .delay-4 { transition-delay: 0.32s; }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3.2rem 1.5rem 2.6rem;
+            background: linear-gradient(180deg, var(--navy-dark) 0%, #021530 100%);
+            color: #fff;
+            border-top: 5px solid var(--neon-lime);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quran-verse {
+            font-family: 'Amiri', 'Cairo', serif;
+            font-size: 1.75rem;
+            color: var(--neon-lime);
+            margin-bottom: 0.4rem;
+            letter-spacing: 0.5px;
+        }
+
+        .prophet-blessing {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1rem;
+            color: #cbd5e1;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-divider {
+            width: 150px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-accent), transparent);
+            margin: 0 auto 1.3rem;
+        }
+
+        .copyright-gold {
+            font-size: 0.93rem;
+            font-weight: 700;
+            color: var(--gold-accent);
+            margin-bottom: 0.35rem;
+            letter-spacing: 0.3px;
+        }
+
+        .copyright-sub {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #94a3b8;
+            letter-spacing: 0.5px;
+        }
+
+        /* Keyframes */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-22px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(22px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes moveBelt {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @keyframes driveVan {
+            0% { left: -90px; transform: translateY(0px); }
+            25% { transform: translateY(-1.5px); }
+            50% { transform: translateY(0px); }
+            75% { transform: translateY(-1.5px); }
+            100% { left: 105%; transform: translateY(0px); }
+        }
+
+        @keyframes driftPattern {
+            0% { background-position: 0 0; }
+            100% { background-position: 360px 360px; }
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes pulseOrb {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.2) translate(25px, 15px); }
+        }
+
+        @keyframes shimmer {
+            0%, 60% { left: -100%; }
+            100% { left: 160%; }
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+
+        @keyframes arrowPulse {
+            0%, 100% { transform: translateX(0); opacity: 0.7; }
+            50% { transform: translateX(4px); opacity: 1; }
+        }
+
+        @keyframes tagSwing {
+            0%, 100% { transform: rotate(45deg) scale(1.18); }
+            30% { transform: rotate(55deg) scale(1.18); }
+            60% { transform: rotate(35deg) scale(1.18); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Animated Retro Mystery Machine Background Layer -->
+    <div class="mystery-bg-layer"></div>
+
+    <!-- Top Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Header / Hero Section -->
+    <header>
+        <div class="hero-orb orb-1"></div>
+        <div class="hero-orb orb-2"></div>
+
+        <div class="logo-container">
+            <div class="badge-ieee"><i class="fa-solid fa-anchor"></i> Damietta IEEE Student Branch</div>
+            <div class="badge-team">Nexus Team</div>
+        </div>
+        <h1>NEX<span>MOVE</span></h1>
+        <p>Automated Multi-Conveyor Sorting & Routing System</p>
+        
+        <!-- System Workflow Summary -->
+        <div class="system-flow">
+            <span class="flow-pill"><i class="fa-solid fa-bars-staggered"></i> 4 Conveyor Belts</span>
+            <i class="fa-solid fa-arrow-right flow-arrow"></i>
+            <span class="flow-pill"><i class="fa-solid fa-sliders"></i> Relay & 555 Timer Control</span>
+            <i class="fa-solid fa-arrow-right flow-arrow"></i>
+            <span class="flow-pill"><i class="fa-solid fa-van-shuttle"></i> Mystery Machine Carrier</span>
+        </div>
+        
+        <div class="cta-buttons">
+            <a href="#demo" class="btn btn-primary"><i class="fa-solid fa-play"></i> Watch Live Demo</a>
+            <a href="https://drive.google.com/drive/folders/153TqOvpW1h_b_R5jk6_VITR8kQb-FXXv?usp=drive_link" target="_blank" class="btn btn-outline"><i class="fa-solid fa-file-pdf"></i> Download Full Report</a>
+        </div>
+
+        <!-- Conveyor Belt + Mini Mystery Machine Carrier Animation -->
+        <div class="conveyor-stage">
+            <!-- Custom SVG Mini Mystery Machine Van -->
+            <svg class="mini-mystery-van" viewBox="0 0 120 55" xmlns="http://www.w3.org/2000/svg">
+                <!-- Van Body (Teal) -->
+                <path d="M10 12 Q10 6 18 6 L88 6 Q98 6 105 18 L112 28 Q114 32 114 38 L114 42 L6 42 L6 18 Q6 12 10 12 Z" fill="#009999" stroke="#042147" stroke-width="2.5"/>
+                <!-- Lime Green Wave Stripe -->
+                <path d="M6 25 Q30 17 55 26 T113 28 L114 38 L6 38 Z" fill="#99be2e"/>
+                <!-- Orange Retro Flower -->
+                <circle cx="48" cy="28" r="5.5" fill="#FF6B1A"/>
+                <circle cx="48" cy="28" r="2" fill="#E5C158"/>
+                <!-- Windshield & Side Window -->
+                <path d="M84 10 L96 10 L104 22 L84 22 Z" fill="#dbeafe" stroke="#042147" stroke-width="2"/>
+                <rect x="16" y="11" width="24" height="10" rx="2" fill="#dbeafe" stroke="#042147" stroke-width="2"/>
+                <!-- Wheels -->
+                <circle cx="28" cy="43" r="9" fill="#042147"/>
+                <circle cx="28" cy="43" r="4.5" fill="#FF6B1A"/>
+                <circle cx="90" cy="43" r="9" fill="#042147"/>
+                <circle cx="90" cy="43" r="4.5" fill="#FF6B1A"/>
+            </svg>
+
+            <div class="conveyor-track">
+                <div class="conveyor-belt"></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- Live Demo Video Section -->
+        <section id="demo" class="reveal">
+            <h2 class="section-title">Project Live Demonstration</h2>
+            <div class="video-wrapper">
+                <div class="video-box">
+                    <!-- عدّل هنا: ضع كود فيديو اليوتيوب مكان VIDEO_ID -->
+                    <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="NEXMOVE Demo Video" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Architecture Overview -->
+        <section>
+            <h2 class="section-title reveal">System Architecture & Hardware</h2>
+
+            <!-- Quick Engineering Specs Strip with Animated Counters -->
+            <div class="specs-bar reveal" id="specsBar">
+                <div class="spec-item">
+                    <div class="spec-number counter" data-target="4">0</div>
+                    <div>
+                        <div class="spec-label">Conveyor Belts</div>
+                        <div class="spec-sub">Synchronized DC Stages</div>
+                    </div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-number counter" data-target="3">0</div>
+                    <div>
+                        <div class="spec-label">Custom PCBs</div>
+                        <div class="spec-sub">EasyEDA & Proteus Verified</div>
+                    </div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-number counter" data-target="555">0</div>
+                    <div>
+                        <div class="spec-label">Timer PWM Control</div>
+                        <div class="spec-sub">Servo Gate Actuation</div>
+                    </div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-number counter" data-target="100" data-suffix="%">0%</div>
+                    <div>
+                        <div class="spec-label">Discrete Hardware</div>
+                        <div class="spec-sub">Zero Microcontroller Logic</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <div class="card tilt-card spotlight-card reveal delay-1">
+                    <div class="card-icon"><i class="fa-solid fa-rotate"></i></div>
+                    <h3>Conveyor Stages</h3>
+                    <p>Four synchronized motorized conveyor belts designed for seamless material flow and continuous automated transit.</p>
+                </div>
+                <div class="card tilt-card spotlight-card reveal delay-2">
+                    <div class="card-icon"><i class="fa-solid fa-microchip"></i></div>
+                    <h3>Control & Switching</h3>
+                    <p>Controlled via robust SPDT relays, rotary switches, and custom 555 Timer PWM integration for precise servo actuation.</p>
+                </div>
+                <div class="card tilt-card spotlight-card reveal delay-3">
+                    <div class="card-icon"><i class="fa-solid fa-bolt"></i></div>
+                    <h3>Custom PCBs</h3>
+                    <p>Single-layer printed circuit boards meticulously designed and simulated using EasyEDA and Proteus for optimal reliability.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Team Section (All 5 in One Row) -->
+        <section id="team">
+            <h2 class="section-title reveal">Project Team</h2>
+            <div class="team-grid">
+                
+                <!-- Member 1: Ganna -->
+                <div class="team-member tilt-card spotlight-card reveal">
+                    <div class="scooby-tag"><span>SD</span></div>
+                    <div class="member-avatar">
+                        <div class="member-avatar-inner">
+                            <img src="images/ganna.jpg" alt="Ganna Akram" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <i class="fa-solid fa-user" style="display:none;"></i>
+                        </div>
+                    </div>
+                    <h4>Ganna Akram</h4>
+                    <p>Nexus Team</p>
+                    <a href="https://www.linkedin.com/in/ganna-akram-2110a2422?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" class="linkedin-btn"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+
+                <!-- Member 2: Malak -->
+                <div class="team-member tilt-card spotlight-card reveal delay-1">
+                    <div class="scooby-tag"><span>SD</span></div>
+                    <div class="member-avatar">
+                        <div class="member-avatar-inner">
+                            <img src="images/malak.jpg" alt="Malak ElGhitany" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <i class="fa-solid fa-user" style="display:none;"></i>
+                        </div>
+                    </div>
+                    <h4>Malak ElGhitany</h4>
+                    <p>Nexus Team</p>
+                    <a href="https://www.linkedin.com/in/malak-elghitany-62a769387?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="linkedin-btn"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+
+                <!-- Member 3: Hesham -->
+                <div class="team-member tilt-card spotlight-card reveal delay-2">
+                    <div class="scooby-tag"><span>SD</span></div>
+                    <div class="member-avatar">
+                        <div class="member-avatar-inner">
+                            <img src="images/hisham.jpg" alt="Ahmed Hesham" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <i class="fa-solid fa-user" style="display:none;"></i>
+                        </div>
+                    </div>
+                    <h4>Ahmed Hesham</h4>
+                    <p>Nexus Team</p>
+                    <a href="https://www.linkedin.com/in/ahmed-hesham-79945a391?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="linkedin-btn"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+
+                <!-- Member 4: Samir -->
+                <div class="team-member tilt-card spotlight-card reveal delay-3">
+                    <div class="scooby-tag"><span>SD</span></div>
+                    <div class="member-avatar">
+                        <div class="member-avatar-inner">
+                            <img src="images/samir.jpg" alt="Ahmed Samir" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <i class="fa-solid fa-user" style="display:none;"></i>
+                        </div>
+                    </div>
+                    <h4>Ahmed Samir</h4>
+                    <p>Nexus Team</p>
+                    <a href="https://www.linkedin.com" target="_blank" class="linkedin-btn"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+
+                <!-- Member 5: Elmor -->
+                <div class="team-member tilt-card spotlight-card reveal delay-4">
+                    <div class="scooby-tag"><span>SD</span></div>
+                    <div class="member-avatar">
+                        <div class="member-avatar-inner">
+                            <img src="images/elmor.jpg" alt="Ahmed Elmor" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <i class="fa-solid fa-user" style="display:none;"></i>
+                        </div>
+                    </div>
+                    <h4>Ahmed Elmor</h4>
+                    <p>Nexus Team</p>
+                    <a href="https://www.linkedin.com/in/ahmed-elmor-a84ab9421?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="linkedin-btn"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="quran-verse">﴾ وَقُل رَّبِّ زِدْنِي عِلْماً ﴿</div>
+        <div class="prophet-blessing">اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ عَلَى نَبِيِّنَا مُحَمَّدٍ ﷺ</div>
+        <div class="footer-divider"></div>
+        <p class="copyright-gold">&copy; 2026 NEXMOVE Project | Damietta IEEE Student Branch | Created By Nexus Team.</p>
+        <p class="copyright-sub">Basic Electronics Track.</p>
+    </footer>
+
+    <!-- Scroll Progress, Reveal, Counters, Spotlight & 3D Tilt Script -->
+    <script>
+        const scrollProgress = document.getElementById('scrollProgress');
+        const revealElements = document.querySelectorAll('.reveal');
+        let countersStarted = false;
+
+        // Animated Number Counters
+        const startCounters = () => {
+            if (countersStarted) return;
+            countersStarted = true;
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const suffix = counter.getAttribute('data-suffix') || '';
+                const duration = 1400;
+                const stepTime = 20;
+                const steps = duration / stepTime;
+                const increment = target / steps;
+                let current = 0;
+
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        counter.textContent = target + suffix;
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = Math.floor(current) + suffix;
+                    }
+                }, stepTime);
+            });
+        };
+
+        const handleScroll = () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            if (docHeight > 0 && scrollProgress) {
+                const progressPercent = (scrollTop / docHeight) * 100;
+                scrollProgress.style.width = `${progressPercent}%`;
+            }
+
+            const windowHeight = window.innerHeight;
+            revealElements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 70) {
+                    el.classList.add('active');
+                }
+            });
+
+            const specsBar = document.getElementById('specsBar');
+            if (specsBar && specsBar.getBoundingClientRect().top < windowHeight - 60) {
+                startCounters();
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        handleScroll();
+
+        // 3D Tilt + Dynamic Mouse Spotlight Effect on Cards
+        const interactiveCards = document.querySelectorAll('.tilt-card');
+        interactiveCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                // Update spotlight position
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+
+                // 3D Tilt calculation
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -6;
+                const rotateY = ((x - centerX) / centerX) * 6;
+                card.style.transform = `perspective(850px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-7px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(850px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+            });
+        });
+    </script>
+
+</body>
+</html>
